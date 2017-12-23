@@ -27,8 +27,9 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-  def log4jVersion = '2.7'
-  def jooqVersion = '3.9.5'
+  def log4jVersion = "2.7"
+  def jooqVersion = "3.9.5"
+  def mysqlConnectorVersion = "5.1.42"  // 5.1.13及以下版本，无法使用utf8mb4
   
   compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
   compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
@@ -47,6 +48,8 @@ dependencies {
   compileOnly "org.jooq:jooq-meta:$jooqVersion"
   compileOnly "org.jooq:jooq-codegen:$jooqVersion"
   compileOnly "org.apache.commons:commons-lang3:3.5"
+  
+  compileOnly "com.zaxxer:HikariCP:2.7.4"
 
   compileOnly "com.google.guava:guava:21.0"
   compileOnly "org.json:json:20160810"
@@ -55,6 +58,7 @@ dependencies {
   compileOnly "org.apache.httpcomponents:httpclient:4.5.3"
   compileOnly "org.bouncycastle:bcprov-jdk16:1.46"
   compileOnly "javax.servlet:javax.servlet-api:3.1.0"
+  compileOnly "mysql:mysql-connector-java:$mysqlConnectorVersion"
   
   testImplementation 'junit:junit:4.12'
 }
