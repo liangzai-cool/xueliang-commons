@@ -160,7 +160,7 @@ public class HttpUtils {
     }
 
     public String get(String url, Map<String, List<String>> paramMap, Map<String, List<String>> headerMap) throws IOException {
-        return (String) get(url, paramMap, null, true);
+        return (String) get(url, paramMap, headerMap, true);
     }
 
     public boolean isAllowAllHostname() {
