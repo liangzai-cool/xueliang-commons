@@ -34,8 +34,10 @@ dependencies {
   compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
   compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
   
-  compile "org.apache.poi:poi:3.13"
-  compile "org.apache.poi:poi-ooxml:3.13"
+  compileOnly "org.apache.poi:poi:3.13"
+  compileOnly "org.apache.poi:poi-ooxml:3.13"
+  
+  compileOnly "commons-io:commons-io:2.6"
 
 //  compileOnly "com.googlecode.libphonenumber:libphonenumber:8.8.4"
 //  compileOnly "com.googlecode.libphonenumber:carrier:1.9"
