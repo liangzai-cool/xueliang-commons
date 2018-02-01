@@ -30,6 +30,7 @@ dependencies {
   def log4jVersion = "2.7"
   def jooqVersion = "3.9.5"
   def mysqlConnectorVersion = "5.1.42"  // 5.1.13及以下版本，无法使用utf8mb4
+  def springVersion = '4.3.9.RELEASE'
   
   compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
   compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
@@ -67,6 +68,9 @@ dependencies {
   compileOnly "org.bouncycastle:bcprov-jdk16:1.46"
   compileOnly "javax.servlet:javax.servlet-api:3.1.0"
   compileOnly "mysql:mysql-connector-java:$mysqlConnectorVersion"
+  
+  compileOnly "org.springframework:spring-web:$springVersion"
+  compileOnly "org.springframework:spring-webmvc:$springVersion"
   
   testImplementation 'junit:junit:4.12'
 }
