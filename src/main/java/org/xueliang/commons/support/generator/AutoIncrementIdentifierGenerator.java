@@ -28,8 +28,7 @@ public class AutoIncrementIdentifierGenerator implements IdentifierGenerator {
                 return;
             }
             value[0] = record.get("value", Long.class);
-            value[0] = ++value[0];
-            dsl.query("update `" + tableName + "` set value = ?, updateDate = now() where id = ?", value[0], id).execute();
+            dsl.query("update `" + tableName + "` set value = ?, updateDate = now() where id = ?", value[0] + 1, id).execute();
         });
         return String.valueOf(value[0]);
     }
