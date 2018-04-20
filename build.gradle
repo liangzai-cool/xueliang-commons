@@ -32,8 +32,8 @@ dependencies {
   def mysqlConnectorVersion = "5.1.42"  // 5.1.13及以下版本，无法使用utf8mb4
   def springVersion = '4.3.9.RELEASE'
   
-  compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
-  compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
+  compileOnly "org.apache.logging.log4j:log4j-api:$log4jVersion"
+  compileOnly "org.apache.logging.log4j:log4j-core:$log4jVersion"
   
   compileOnly "org.apache.poi:poi:3.13"
   compileOnly "org.apache.poi:poi-ooxml:3.13"
