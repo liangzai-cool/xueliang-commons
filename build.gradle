@@ -8,10 +8,11 @@
 
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
+apply plugin: 'maven-publish'
 
 repositories {
   mavenLocal()
-  maven { url 'http://repo1.xueliang.org/repository/maven-public/'}
+//  maven { url 'http://repo1.xueliang.org/repository/maven-public/'}
   maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
   mavenCentral()
   jcenter()
@@ -77,3 +78,19 @@ dependencies {
   testImplementation 'junit:junit:4.12'
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'org.xueliang'
+            artifactId 'xueliang-commons'
+            version '1.0.0-SNAPSHOT'
+
+            from components.java
+            // more goes in here
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+}
