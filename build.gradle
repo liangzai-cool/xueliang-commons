@@ -8,6 +8,7 @@
 
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
+apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
 repositories {
@@ -18,9 +19,12 @@ repositories {
   jcenter()
 }
 
-compileJava {
-  sourceCompatibility = 1.8
-  targetCompatibility = 1.8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+    test.compileClasspath += configurations.compileOnly
+    test.runtimeClasspath += configurations.compileOnly
 }
 
 tasks.withType(JavaCompile) {  
@@ -28,54 +32,59 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-  def log4jVersion = "2.7"
-  def jooqVersion = "3.9.5"
-  def mysqlConnectorVersion = "5.1.42"  // 5.1.13及以下版本，无法使用utf8mb4
-  def springVersion = '4.3.9.RELEASE'
+    def log4jVersion = "2.7"
+    def jooqVersion = "3.9.5"
+    def mysqlConnectorVersion = "5.1.42"  // 5.1.13及以下版本，无法使用utf8mb4
+    def springVersion = '4.3.9.RELEASE'
+
+    compileOnly "com.aliyun:aliyun-java-sdk-core:4.0.8"
+    compileOnly "com.aliyun:aliyun-java-sdk-dysmsapi:1.1.0"
+
+    compileOnly "org.apache.logging.log4j:log4j-api:$log4jVersion"
+    compileOnly "org.apache.logging.log4j:log4j-core:$log4jVersion"
+    compileOnly "org.apache.logging.log4j:log4j-slf4j-impl:2.9.1"
   
-  compileOnly "org.apache.logging.log4j:log4j-api:$log4jVersion"
-  compileOnly "org.apache.logging.log4j:log4j-core:$log4jVersion"
-  
-  compileOnly "org.apache.poi:poi:3.13"
-  compileOnly "org.apache.poi:poi-ooxml:3.13"
+    compileOnly "org.apache.poi:poi:3.13"
+    compileOnly "org.apache.poi:poi-ooxml:3.13"
 //  compileOnly "org.apache.poi:poi-ooxml-schemas:3.13"
   
   
-  compileOnly "commons-io:commons-io:2.6"
+    compileOnly "commons-io:commons-io:2.6"
 
 //  compileOnly "com.googlecode.libphonenumber:libphonenumber:8.8.4"
 //  compileOnly "com.googlecode.libphonenumber:carrier:1.9"
 //  compileOnly "com.googlecode.libphonenumber:prefixmapper:2.81"
 //  compileOnly "com.googlecode.libphonenumber:geocoder:2.9"
 
-  compileOnly "com.googlecode.libphonenumber:libphonenumber:8.4.0"
-  compileOnly "com.googlecode.libphonenumber:carrier:1.9"
-  compileOnly "com.googlecode.libphonenumber:prefixmapper:2.67"
-  compileOnly "com.googlecode.libphonenumber:geocoder:2.9"
+    compileOnly "com.googlecode.libphonenumber:libphonenumber:8.4.0"
+    compileOnly "com.googlecode.libphonenumber:carrier:1.9"
+    compileOnly "com.googlecode.libphonenumber:prefixmapper:2.67"
+    compileOnly "com.googlecode.libphonenumber:geocoder:2.9"
   
-  compileOnly "org.jooq:jooq:$jooqVersion"
-  compileOnly "org.jooq:jooq-meta:$jooqVersion"
-  compileOnly "org.jooq:jooq-codegen:$jooqVersion"
+    compileOnly "org.jooq:jooq:$jooqVersion"
+    compileOnly "org.jooq:jooq-meta:$jooqVersion"
+    compileOnly "org.jooq:jooq-codegen:$jooqVersion"
   
-  compileOnly "org.jsoup:jsoup:1.11.2"
+    compileOnly "org.jsoup:jsoup:1.11.2"
   
-  compileOnly "org.apache.commons:commons-lang3:3.5"
+    compileOnly "org.apache.commons:commons-lang3:3.5"
   
-  compileOnly "com.zaxxer:HikariCP:2.7.4"
+    compileOnly "com.zaxxer:HikariCP:2.7.4"
 
-  compileOnly "com.google.guava:guava:21.0"
-  compileOnly "org.json:json:20160810"
-  compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.0.pr1"
-  compileOnly "org.apache.commons:commons-lang3:3.5"
-  compileOnly "org.apache.httpcomponents:httpclient:4.5.3"
-  compileOnly "org.bouncycastle:bcprov-jdk16:1.46"
-  compileOnly "javax.servlet:javax.servlet-api:3.1.0"
-  compileOnly "mysql:mysql-connector-java:$mysqlConnectorVersion"
+    compileOnly "com.google.guava:guava:21.0"
+    compileOnly "org.json:json:20160810"
+    compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.0.pr1"
+    compileOnly "org.apache.commons:commons-lang3:3.5"
+    compileOnly "org.apache.httpcomponents:httpclient:4.5.3"
+    compileOnly "org.bouncycastle:bcprov-jdk16:1.46"
+    compileOnly "javax.servlet:javax.servlet-api:3.1.0"
+    compileOnly "mysql:mysql-connector-java:$mysqlConnectorVersion"
   
-  compileOnly "org.springframework:spring-web:$springVersion"
-  compileOnly "org.springframework:spring-webmvc:$springVersion"
+    compileOnly "org.springframework:spring-web:$springVersion"
+    compileOnly "org.springframework:spring-webmvc:$springVersion"
   
-  testImplementation 'junit:junit:4.12'
+//  testImplementation 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
 }
 
 publishing {

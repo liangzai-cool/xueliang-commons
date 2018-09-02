@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true" name="XMLConfig" verbose="true">
+  <Properties>
+    <Property name="project.name">@project.name@</Property>
+    <Property name="filename">logs/${project.name}/${project.name}</Property>
+    <Property name="pattern">%d %-5p [%c]\: %L - %m%n</Property>
+  </Properties>
+  
+  <Appenders>
+    <Appender type="Console" name="STDOUT">
+      <Layout type="PatternLayout">
+      	<Pattern>${pattern}</Pattern>
+      </Layout>
+    </Appender>
+    <!-- 输出到文件，每天一个 -->
+    <Appender type="RollingFile" name="RollingFile" fileName="${filename}.log" filePattern="${filename}_%d{yyyy-MM-dd}.log">
+      <Layout type="PatternLayout">
+        <Pattern>${pattern}</Pattern>
+      </Layout>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </Appender>
+    <!--<Appender type="JDBC" name="JDBC" tableName="passport_logging">-->
+      <!--<ConnectionFactory class="org.xueliang.server.passport.config.Log4jConnectionFactory" method="getDatabaseConnection" />-->
+      <!--<Column name="eventDate" isEventTimestamp="true" />-->
+      <!--<Column name="level" pattern="%level" />-->
+      <!--<Column name="logger" pattern="%logger" />-->
+      <!--<Column name="line" pattern="%L" />-->
+      <!--<Column name="message" pattern="%message" />-->
+      <!--<Column name="exception" pattern="%ex{full}" />-->
+    <!--</Appender>-->
+  </Appenders>
+ 
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="STDOUT"/>
+      <AppenderRef ref="RollingFile"/>
+      <!--<AppenderRef ref="JDBC"/>-->
+    </Root>
+  </Loggers>
+</Configuration>
