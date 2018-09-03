@@ -1,7 +1,5 @@
 package org.xueliang.commons.support.sms;
 
-import com.aliyuncs.exceptions.ClientException;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,9 +10,10 @@ import java.util.List;
 public abstract class AbstractSmsSender implements SmsSener {
 
     @Override
-    public abstract boolean batchSend(List<String> mobileList, String content) throws Exception;
+    public abstract boolean batchSend(List<String> mobileList, String signName, String templateId, String content) throws Exception;
 
-    public boolean send(String mobile, String content) throws Exception {
-        return batchSend(Arrays.asList(new String[]{ mobile }), content);
+    @Override
+    public boolean send(String mobile, String signName, String templateId, String content) throws Exception {
+        return batchSend(Arrays.asList(new String[]{ mobile }), signName, templateId, content);
     }
 }

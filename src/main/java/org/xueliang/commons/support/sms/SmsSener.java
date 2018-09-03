@@ -1,7 +1,5 @@
 package org.xueliang.commons.support.sms;
 
-import com.aliyuncs.exceptions.ClientException;
-
 import java.util.List;
 
 /**
@@ -12,7 +10,7 @@ import java.util.List;
  */
 public interface SmsSener {
 
-    boolean batchSend(List<String> mobileList, String content) throws Exception;
+    boolean batchSend(List<String> mobileList, String signName, String templateId, String content) throws Exception;
 
-    boolean send(String mobile, String content) throws Exception;
+    boolean send(String mobile, String signName, String templateId, String content) throws Exception;
 }
