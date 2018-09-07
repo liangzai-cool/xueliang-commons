@@ -1,5 +1,7 @@
 package org.xueliang.commons.web;
 
+import org.xueliang.commons.exception.BaseException;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ public class JSONResponse {
     
     private Object data;
     private String returnUrl = "";
-    private List<DefaultException.Error> errors = new ArrayList<DefaultException.Error>();
+    private List<BaseException> errors = new ArrayList<BaseException>();
 
     public Object getData() {
         return data == null ? new Object() : data;
@@ -37,26 +39,30 @@ public class JSONResponse {
         this.returnUrl = returnUrl;
     }
 
-    public List<DefaultException.Error> getErrors() {
+    public List<BaseException> getErrors() {
         return errors;
     }
 
-    public JSONResponse setErrors(List<DefaultException.Error> errors) {
+    public JSONResponse setErrors(List<BaseException> errors) {
         this.errors = errors;
         return this;
     }
     
-    public JSONResponse addError(DefaultException.Error error) {
+    public JSONResponse addError(BaseException error) {
         this.errors.add(error);
         return this;
     }
     
-    public void addError(DefaultException.Error error, String message) {
+    public void addError(BaseException error, String message) {
         error.setMessage(message);
         this.errors.add(error);
     }
     
     public Timestamp getServerTime() {
         return Timestamp.valueOf(LocalDateTime.now());
+    }
+
+    public JSONResponse ok() {
+        return new JSONResponse();
     }
 }
