@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,6 +13,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 读取Excel，将其转为JSONArray
@@ -24,7 +24,7 @@ import org.json.JSONArray;
 public class ExcelReadUtils {
 	
 	/** 用来记录日志 **/
-	private final static Log log = LogFactory.getLog(ExcelReadUtils.class);
+	private final static Logger log = LoggerFactory.getLogger(ExcelReadUtils.class);
 	
 	private final static String EXT_XLS = ".xls";
 	private final static String EXT_XLSX = ".xlsx";
