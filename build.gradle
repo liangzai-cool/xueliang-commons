@@ -19,6 +19,14 @@ repositories {
   jcenter()
 }
 
+ext {
+    group = 'org.xueliang'
+    version = '0.0.1-SNAPSHOT'
+}
+
+group = "${ext.group}"
+version = "${ext.version}"
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -90,9 +98,9 @@ dependencies {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId 'org.xueliang'
-            artifactId 'xueliang-commons'
-            version '1.0.0-SNAPSHOT'
+            groupId group
+            artifactId "${rootProject.name}"
+            version version
 
             from components.java
             // more goes in here
