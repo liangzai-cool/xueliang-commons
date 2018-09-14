@@ -15,8 +15,12 @@ public class HttpServletRequestUtils {
         LOCALHOST_IP.add("127.0.0.1");  // ipv4
         LOCALHOST_IP.add("::1");        // ipv6
     }
+
+    private HttpServletRequestUtils() {
+
+    }
     
-    public String getIP(HttpServletRequest request) {
+    public static String getIP(HttpServletRequest request) {
         String ip = request.getRemoteAddr();
         if (!LOCALHOST_IP.contains(ip)) {
             return ip;
