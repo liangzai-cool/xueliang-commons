@@ -1,6 +1,7 @@
 package org.xueliang.commons.support.sms;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -10,10 +11,10 @@ import java.util.List;
 public abstract class AbstractSmsSender implements SmsSener {
 
     @Override
-    public abstract boolean batchSend(List<String> mobileList, String signName, String templateId, String content) throws Exception;
+    public abstract boolean batchSend(List<String> mobileList, String signName, String templateId, LinkedHashMap<String, String> parameterMap) throws Exception;
 
     @Override
-    public boolean send(String mobile, String signName, String templateId, String content) throws Exception {
-        return batchSend(Arrays.asList(new String[]{ mobile }), signName, templateId, content);
+    public boolean send(String mobile, String signName, String templateId, LinkedHashMap<String, String> parameterMap) throws Exception {
+        return batchSend(Arrays.asList(new String[]{ mobile }), signName, templateId, parameterMap);
     }
 }

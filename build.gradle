@@ -41,7 +41,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     def log4jVersion = "2.7"
-    def jooqVersion = "3.9.5"
+    def jooqVersion = "3.11.2"
     def mysqlConnectorVersion = "5.1.42"  // 5.1.13及以下版本，无法使用utf8mb4
     def springVersion = '4.3.9.RELEASE'
 

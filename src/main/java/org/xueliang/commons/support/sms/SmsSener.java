@@ -1,5 +1,6 @@
 package org.xueliang.commons.support.sms;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface SmsSener {
 
-    boolean batchSend(List<String> mobileList, String signName, String templateId, String content) throws Exception;
+    boolean batchSend(List<String> mobileList, String signName, String templateId, LinkedHashMap<String, String> parameterMap) throws Exception;
 
-    boolean send(String mobile, String signName, String templateId, String content) throws Exception;
+    boolean send(String mobile, String signName, String templateId, LinkedHashMap<String, String> parameterMap) throws Exception;
 }

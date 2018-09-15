@@ -7,6 +7,10 @@ package org.xueliang.commons.exception;
 public class CaptchaExpiredException extends ExpiredException {
 
     public CaptchaExpiredException() {
-        super("验证码已过期，请刷新后重试");
+        this("验证码已过期，请刷新后重试");
+    }
+
+    public CaptchaExpiredException(String message) {
+        super(message);
     }
 }

@@ -7,6 +7,10 @@ package org.xueliang.commons.exception;
 public class CaptchaWrongException extends InvalidParameterException {
 
     public CaptchaWrongException() {
-        super("验证码错误，请刷新后重试");
+        this("验证码错误，请刷新后重试");
+    }
+
+    public CaptchaWrongException(String message) {
+        super(message);
     }
 }

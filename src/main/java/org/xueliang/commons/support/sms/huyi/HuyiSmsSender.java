@@ -13,6 +13,7 @@ import org.xueliang.commons.support.sms.AbstractSmsSender;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -47,8 +48,8 @@ public class HuyiSmsSender extends AbstractSmsSender {
     }
 
     @Override
-    public boolean batchSend(List<String> mobileList, String signName, String templateId, String content) throws Exception {
-        String url = this.requestUrl + "&mobile=" + String.join(",", mobileList) + "&content=" + content;
+    public boolean batchSend(List<String> mobileList, String signName, String templateId, LinkedHashMap<String, String> parameterMap) throws Exception {
+        String url = this.requestUrl + "&mobile=" + String.join(",", mobileList) + "&content=" + parameterMap.get("content");
         HttpPost httpPost = new HttpPost(smsRequestUrl);
         try {
             HttpResponse httpResponse = httpClient.execute(httpPost);
