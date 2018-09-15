@@ -11,7 +11,8 @@ import java.util.List;
 public class JSONResponse {
     
     private Object data;
-    private String returnUrl = "";
+    private boolean success;
+    private BaseException error;
     private List<BaseException> errors = new ArrayList<BaseException>();
 
     public Object getData() {
@@ -31,12 +32,15 @@ public class JSONResponse {
         return this;
     }
 
-    public String getReturnUrl() {
-        return returnUrl;
+    public boolean isSuccess() {
+        return getErrors() == null || getErrors().isEmpty();
     }
 
-    public void setReturnUrl(String returnUrl) {
-        this.returnUrl = returnUrl;
+    public BaseException getError() {
+        if (getErrors() != null && !getErrors().isEmpty()) {
+            this.error = this.errors.get(0);
+        }
+        return error;
     }
 
     public List<BaseException> getErrors() {
