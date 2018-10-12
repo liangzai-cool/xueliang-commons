@@ -24,11 +24,11 @@ public class AutoIncrementIdentifierGenerator implements IdentifierGenerator {
             Record record = dsl.resultQuery("select * from `" + tableName + "` where id = ? and status >= ?", id, DataStatusEnum.NORMAL.getValue()).fetchOne();
             if (record == null) {
                 dsl.query("delete from `" + tableName + "` where id = ?", id);
-                dsl.query("insert into `" + tableName + "`(id, value, status, created_date) values(?, ?, ?, now())", id, value[0], DataStatusEnum.NORMAL.getValue()).execute();
+                dsl.query("insert into `" + tableName + "`(id, value, status, created_time) values(?, ?, ?, now())", id, value[0], DataStatusEnum.NORMAL.getValue()).execute();
                 return;
             }
             value[0] = record.get("value", Long.class);
-            dsl.query("update `" + tableName + "` set value = ?, updated_date = now() where id = ?", value[0] + 1, id).execute();
+            dsl.query("update `" + tableName + "` set value = ?, updated_time = now() where id = ?", value[0] + 1, id).execute();
         });
         return String.valueOf(value[0]);
     }
