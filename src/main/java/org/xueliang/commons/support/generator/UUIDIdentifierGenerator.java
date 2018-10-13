@@ -1,17 +1,15 @@
 package org.xueliang.commons.support.generator;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.UUID;
 
-public class UUIDIdentifierGenerator implements IdentifierGenerator {
-
-    @Override
-    public String nextId() {
-        return UUID.randomUUID().toString();
-    }
+public class UUIDIdentifierGenerator extends AbstractIdentifierGenerator {
 
     @Override
     public String nextId(String flag) {
-        return flag + nextId();
+        String uuid = UUID.randomUUID().toString();
+        return StringUtils.isEmpty(flag) ? uuid : flag + uuid;
     }
 
 }

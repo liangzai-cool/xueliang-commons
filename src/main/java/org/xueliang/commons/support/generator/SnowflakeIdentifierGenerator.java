@@ -1,12 +1,14 @@
 package org.xueliang.commons.support.generator;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
 * twitter的snowflake算法 -- java实现
 *
 * @author rock
 * @date 2016/11/26
 */
-public class SnowflakeIdentifierGenerator implements IdentifierGenerator {
+public class SnowflakeIdentifierGenerator extends AbstractIdentifierGenerator {
 
     /**
     * 起始的时间戳
@@ -60,7 +62,7 @@ public class SnowflakeIdentifierGenerator implements IdentifierGenerator {
     * @return
     */
     @Override
-    public synchronized String nextId() {
+    public synchronized String nextId(String flag) {
         long currStmp = getNewstmp();
         if (currStmp < lastStmp) {
             throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
@@ -80,10 +82,12 @@ public class SnowflakeIdentifierGenerator implements IdentifierGenerator {
 
         lastStmp = currStmp;
 
-        return String.valueOf((currStmp - START_STMP) << TIMESTMP_LEFT //时间戳部分
+        String nowflakeSequence = String.valueOf((currStmp - START_STMP) << TIMESTMP_LEFT //时间戳部分
                 | datacenterId << DATACENTER_LEFT      //数据中心部分
                 | machineId << MACHINE_LEFT            //机器标识部分
-                | sequence);                            //序列号部分
+                | sequence);
+        String finalSequence = StringUtils.isEmpty(flag) ? nowflakeSequence : flag + nowflakeSequence;
+        return finalSequence;                            //序列号部分
     }
 
     private long getNextMill() {
@@ -104,10 +108,5 @@ public class SnowflakeIdentifierGenerator implements IdentifierGenerator {
             System.out.println(snowFlake.nextId());
         }
 
-    }
-
-    @Override
-    public String nextId(String flag) {
-        return nextId();
     }
 }

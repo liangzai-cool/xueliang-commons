@@ -5,7 +5,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.xueliang.commons.DataStatusEnum;
 
-public class AutoIncrementIdentifierGenerator implements IdentifierGenerator {
+public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerator {
 
     private DSLContext dsl;
     
@@ -19,7 +19,12 @@ public class AutoIncrementIdentifierGenerator implements IdentifierGenerator {
     @Override
     public String nextId(String table) {
         String id = "auto.increment" + (StringUtils.isEmpty(table) ? "" : "." + table);
-        final long[] value = new long[] {1};
+        long[] value = new long[] {1};
+        generator(id, value);
+        return String.valueOf(value[0]);
+    }
+
+    protected void generator(String id, long[] value) {
         dsl.transaction(configuration -> {
             Record record = dsl.resultQuery("select * from `" + tableName + "` where id = ? and status >= ?", id, DataStatusEnum.NORMAL.getValue()).fetchOne();
             if (record == null) {
@@ -30,7 +35,6 @@ public class AutoIncrementIdentifierGenerator implements IdentifierGenerator {
             value[0] = record.get("value", Long.class);
             dsl.query("update `" + tableName + "` set value = ?, updated_time = now() where id = ?", value[0] + 1, id).execute();
         });
-        return String.valueOf(value[0]);
     }
 
     public DSLContext getDsl() {
