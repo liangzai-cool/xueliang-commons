@@ -20,6 +20,8 @@ public class ConfigProvider {
     
     private DSLContext dsl;
     private String[] configTables;
+
+    Pattern pattern = Pattern.compile("\\$\\{(.*?)\\}");
     
     public String getConfig(String id, String defaultValue) {
         String configValue = defaultValue;
@@ -71,7 +73,6 @@ public class ConfigProvider {
     
     public String getConfigReplacedVariables(String id) {
         String value = getConfig(id);
-        Pattern pattern = Pattern.compile("\\$\\{(.*?)\\}");
         Matcher matcher = pattern.matcher(value);
         while (matcher.find()) {
             String expression = matcher.group(0).replace("${", "\\$\\{").replace("}", "\\}");
