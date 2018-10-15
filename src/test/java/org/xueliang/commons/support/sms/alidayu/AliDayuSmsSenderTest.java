@@ -5,6 +5,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
+import java.util.LinkedHashMap;
+
 /**
  * @author XueLiang
  * @date 2018/9/2 23:21
@@ -22,9 +24,11 @@ public class AliDayuSmsSenderTest {
 
     @Test
     public void testSend() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put("captcha", "123456");
-        boolean result = sender.send("131xxxx8910", "短信签名", "SMS_模版代码", json.toString());
+        boolean result = sender.send("131xxxx8910", "短信签名", "SMS_模版代码", new LinkedHashMap<String, String>() {
+            {
+                put("captcha", "123456");
+            }
+        });
         Assert.state(result, "发送失败");
     }
 }
