@@ -29,7 +29,7 @@ public class ConfigProvider {
         for (int i = 0; i < configTables.length; i++) {
             currentConfigTable = configTables[i];
             if (StringUtils.isNotEmpty(currentConfigTable)) {
-              Record record = dsl.select().from("`" + currentConfigTable + "`").where("id = ? and status >= ?", id, DataStatusEnum.NORMAL.getValue()).fetchOne();
+              Record record = dsl.select().from("`" + currentConfigTable + "`").where("id = ? and status = ?", id, DataStatusEnum.NORMAL.name()).fetchOne();
                 if (record != null) {
                     Object object = record.get("value");
                     if (object != null) {
@@ -47,7 +47,7 @@ public class ConfigProvider {
         Map<String, String> map = new HashMap<>();
         Arrays.stream(configTables).forEach(configTable -> {
             if (StringUtils.isNotEmpty(configTable)) {
-                Result<Record> result = dsl.select().from("`" + configTable + "`").where("id like ? and status >= ?", prefix + "%", DataStatusEnum.NORMAL.getValue()).fetch();
+                Result<Record> result = dsl.select().from("`" + configTable + "`").where("id like ? and status = ?", prefix + "%", DataStatusEnum.NORMAL.name()).fetch();
                 result.forEach(configRecord -> {
                     Object configId = configRecord.get("id");
                     Object configValue = configRecord.get("value");

@@ -8,9 +8,20 @@ package org.xueliang.commons;
  *
  */
 public enum DataStatusEnum {
-	NORMAL((byte)0),		//大于等于0为正常状态
-	DISABLED((byte)-1),	//等于-1为禁用状态
-	DELETED((byte)-2);	//等于-2为已删除状态
+	/**
+	 * 大于等于0为正常状态
+	 */
+	NORMAL((byte) 0),
+
+	/**
+	 * 等于-1为禁用状态
+	 */
+	DISABLED((byte) -1),
+
+	/**
+	 * 等于-2为已删除状态
+	 */
+	DELETED((byte) -2);
 	
 	private final byte value;
 	
@@ -20,12 +31,19 @@ public enum DataStatusEnum {
 	
 	/**
 	 * 获取相应状态对应的数值
+	 * 推荐使用英文
 	 * @return
 	 */
+	@Deprecated
 	public final int getValue() {
 		return this.value;
 	}
-	
+
+	/**
+	 * 推荐使用英文
+	 * @return
+	 */
+	@Deprecated
 	public final byte getByteValue() {
         return this.value;
     }
