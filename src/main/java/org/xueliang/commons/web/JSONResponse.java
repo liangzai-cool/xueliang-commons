@@ -66,7 +66,7 @@ public class JSONResponse {
         return Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public JSONResponse ok() {
+    public static JSONResponse ok() {
         return new JSONResponse();
     }
 }
