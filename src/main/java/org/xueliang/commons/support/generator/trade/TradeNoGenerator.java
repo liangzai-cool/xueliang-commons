@@ -1,6 +1,5 @@
 package org.xueliang.commons.support.generator.trade;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.DSLContext;
 import org.xueliang.commons.support.generator.AbstractIdentifierGenerator;
@@ -14,17 +13,12 @@ import java.time.format.DateTimeFormatter;
  * @author xueliang
  * @date 2018/10/13 下午8:10
  */
-public class TradeOrderNoGenerator extends AbstractIdentifierGenerator {
+public class TradeNoGenerator extends AbstractIdentifierGenerator {
 
     /**
      * 订单号总长度
      */
     private int length;
-
-    /**
-     * 订单号允许包含的字符
-     */
-    private String chars;
 
     /**
      * 日期时间格式化
@@ -42,7 +36,7 @@ public class TradeOrderNoGenerator extends AbstractIdentifierGenerator {
 
     private AutoIncrementFixedLengthIdentifierGenerator autoIncrementFixedLengthIdentifierGenerator = new AutoIncrementFixedLengthIdentifierGenerator();
 
-    public TradeOrderNoGenerator() {
+    public TradeNoGenerator() {
         autoIncrementFixedLengthIdentifierGenerator.setDsl(dsl);
         autoIncrementFixedLengthIdentifierGenerator.setTableName(tableName);
 
@@ -69,14 +63,6 @@ public class TradeOrderNoGenerator extends AbstractIdentifierGenerator {
 
     public void setLength(int length) {
         this.length = length;
-    }
-
-    public String getChars() {
-        return chars;
-    }
-
-    public void setChars(String chars) {
-        this.chars = chars;
     }
 
     public String getDateTimeFormatPattern() {
