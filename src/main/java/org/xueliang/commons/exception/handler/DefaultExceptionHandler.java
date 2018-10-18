@@ -13,7 +13,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 import org.xueliang.commons.exception.BaseException;
-import org.xueliang.commons.exception.ServerInternalException;
+import org.xueliang.commons.exception.ServerInternalErrorException;
 import org.xueliang.commons.web.JSONResponse;
 
 public class DefaultExceptionHandler extends DefaultHandlerExceptionResolver {
@@ -36,7 +36,7 @@ public class DefaultExceptionHandler extends DefaultHandlerExceptionResolver {
                 BaseException exception = (BaseException) ex;
                 jsonResponse.addError(exception);
             } else {
-                jsonResponse.addError(new ServerInternalException());
+                jsonResponse.addError(new ServerInternalErrorException());
             }
             mappingJackson2HttpMessageConverter.getObjectMapper().writeValue(writer, jsonResponse);
             writer.flush();

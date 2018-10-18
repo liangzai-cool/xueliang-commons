@@ -10,7 +10,7 @@ public class DataNotExistException extends BaseException {
         super("数据不存在");
     }
 
-    public DataNotExistException(String modelName) {
-        super(modelName + " 不存在");
+    public DataNotExistException(String message) {
+        super(message);
     }
 }

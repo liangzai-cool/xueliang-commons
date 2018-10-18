@@ -141,7 +141,7 @@ public class EmailVerifier implements DataVerifier {
         } catch (MessagingException e) {
             LOGGER.error("send captcha email to email[address=" + email + "][ip=" + ip + "] connect error", e);
         }
-        throw new ServerInternalException();
+        throw new ServerInternalErrorException();
     }
 
     @Override
@@ -202,7 +202,7 @@ public class EmailVerifier implements DataVerifier {
             ipCache.put(ip, ++count);
         } catch (ExecutionException e) {
             LOGGER.error("check ip[" + ip + "] send  from cache error", e);
-            throw new ServerInternalException();
+            throw new ServerInternalErrorException();
         }
     }
 }

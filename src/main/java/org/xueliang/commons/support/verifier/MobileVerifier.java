@@ -29,6 +29,9 @@ public class MobileVerifier implements DataVerifier {
 
     private static final Logger LOGGER = LogManager.getLogger(MobileVerifier.class);
 
+    /**
+     * 短信验证码10分钟有效
+     */
     private static LoadingCache<String, SMSCaptcha> captchaCache = CacheBuilder
             .newBuilder()
             .expireAfterWrite(600, TimeUnit.SECONDS)
@@ -74,11 +77,18 @@ public class MobileVerifier implements DataVerifier {
         if (StringUtils.isEmpty(mobile)) {
             throw new RequiredParameterException("手机号码");
         }
-        String ip = relateData[0];
+        if (relateData == null || relateData.length < 2) {
+            LOGGER.error("lose sms templateId or IP data");
+            throw new ServerInternalErrorException();
+        }
+        // 本次验证使用的短信模版ID
+        String templateId = relateData[0];
+
+        // 客户端IP
+        String ip = relateData[1];
         checkCount(ip);
         String signName = configProvider.getConfig(Constants.CONFIG_KEY_NAME_SMS_SIGN_NAME);
-        String templateId = configProvider.getConfig(Constants.CONFIG_KEY_NAME_SMS_CAPTCHA_TEMPLATE_ID);
-        LOGGER.info("init bind mobile[number={}][relateData={}]", mobile, ip);
+        LOGGER.info("init bind mobile[number={}][ip={}]", mobile, ip);
         String random = RandomStringUtils.randomNumeric(this.count);
         try {
             LocalDateTime sendTime = LocalDateTime.now();
@@ -86,7 +96,7 @@ public class MobileVerifier implements DataVerifier {
             parameterMap.put("code", random);
             boolean isSendSuccess = smsSender.send(mobile, signName, templateId, parameterMap);
             if (!isSendSuccess) {
-                throw new ServerInternalException("短信发送失败");
+                throw new ServerInternalErrorException("短信发送失败");
             }
             String id = getKey(appId, mobile, action.name());
             SMSCaptcha smsCaptcha = new SMSCaptcha();
@@ -98,12 +108,12 @@ public class MobileVerifier implements DataVerifier {
             LOGGER.info("new sms captcha: {}", smsCaptcha);
             captchaCache.put(id, smsCaptcha);
             return true;
-        } catch (BaseException e) {
-            LOGGER.error("send captcha sms to mobile[number=" + mobile + "][ip=" + ip + "] error", e);
-            throw e;
         } catch (Exception e) {
-            LOGGER.error("send captcha sms to mobile[number=" + mobile + "][ip=" + ip + "] error", e);
-            throw new ServerInternalException();
+            LOGGER.error("send captcha sms to mobile[number={}][ip={}] error", mobile, ip, e);
+            if (e instanceof BaseException) {
+                throw ((BaseException) e);
+            }
+            throw new ServerInternalErrorException();
         }
     }
 
@@ -144,7 +154,6 @@ public class MobileVerifier implements DataVerifier {
     public Object verifyAndExpires(String appId, String mobile, ActionEnum action, String input, String... relateData) throws BaseException {
         boolean verified = (Boolean) verify(appId, mobile, action, input, relateData);
         if (verified) {
-            String ip = relateData[0];
             String key = getKey(appId, mobile, action.name());
             captchaCache.invalidate(key);
         }
@@ -158,13 +167,13 @@ public class MobileVerifier implements DataVerifier {
     private void checkCount(String ip) throws BaseException {
         try {
             int count = ipCache.get(ip);
-            if (count >= 10) {
+            if (count >= 20) {
                 throw new RequestRateLimitException();
             }
             ipCache.put(ip, ++count);
         } catch (ExecutionException e) {
-            LOGGER.error("check ip[" + ip + "] send  from cache error", e);
-            throw new ServerInternalException();
+            LOGGER.error("check ip[{}] send  from cache error", ip, e);
+            throw new ServerInternalErrorException();
         }
     }
 }

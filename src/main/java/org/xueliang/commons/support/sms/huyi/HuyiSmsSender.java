@@ -7,12 +7,11 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xueliang.commons.exception.ServerInternalException;
+import org.xueliang.commons.exception.ServerInternalErrorException;
 import org.xueliang.commons.support.sms.AbstractSmsSender;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -62,7 +61,7 @@ public class HuyiSmsSender extends AbstractSmsSender {
             LOGGER.info("smsId: [{}], code: [{}], msg: [{}]", smsId, code, msg);
             if (!SMS_SEND_SUCCESS.equals(code)) {
                 LOGGER.info("send sms fail");
-                throw new ServerInternalException(msg);
+                throw new ServerInternalErrorException(msg);
             }
             LOGGER.info("send sms success");
             return true;

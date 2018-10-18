@@ -8,9 +8,9 @@ public interface DataVerifier {
     /**
      * 初始化校验，如发送短信，发送邮件，生成图片验证码文字内容等
      * @param appId
-     * @param data
+     * @param data 需要验证的数据，如手机号码、邮箱地址等
      * @param action
-     * @param relateData
+     * @param relateData 扩展数据，用于传入IP、短信模版或其他数据
      * @return
      * @throws BaseException
      */
@@ -22,7 +22,7 @@ public interface DataVerifier {
      * @param data
      * @param action
      * @param input
-     * @param relateData
+     * @param relateData 扩展数据，用于传入IP、短信模版或其他数据
      * @return
      * @throws BaseException
      */
@@ -34,7 +34,7 @@ public interface DataVerifier {
      * @param data
      * @param action
      * @param input
-     * @param relateData
+     * @param relateData 扩展数据，用于传入IP、短信模版或其他数据
      * @return
      * @throws BaseException
      */
