@@ -129,23 +129,23 @@ public class MobileVerifier implements DataVerifier {
         try {
             SMSCaptcha smsCaptcha = captchaCache.get(key);
             if (StringUtils.isEmpty(smsCaptcha.getId())) {
-                throw new CaptchaExpiredException();
+                return false;
             }
             if (!mobile.equals(smsCaptcha.getMobile())) {
                 LOGGER.info("invalid mobile[{}], real mobile is [{}]", mobile, smsCaptcha.getMobile());
-                throw new CaptchaWrongException();
+                return false;
             }
             if (!action.equals(smsCaptcha.getAction())) {
                 LOGGER.info("invalid action[{}], real action is [{}]", action, smsCaptcha.getAction());
-                throw new CaptchaWrongException();
+                return false;
             }
             if (!input.equals(smsCaptcha.getValue())) {
                 LOGGER.info("invalid captcha[{}], real captcha is [{}]", input, smsCaptcha.getValue());
-                throw new CaptchaWrongException();
+                return false;
             }
         } catch (ExecutionException e) {
             LOGGER.error("get smsCaptcha from cache error", e);
-            throw new CaptchaWrongException();
+            throw new ServerInternalErrorException();
         }
         return Boolean.TRUE;
     }
