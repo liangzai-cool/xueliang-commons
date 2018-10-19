@@ -13,7 +13,7 @@ apply plugin: 'maven-publish'
 
 repositories {
   mavenLocal()
-//  maven { url 'http://repo1.xueliang.org/repository/maven-public/'}
+  maven { url 'http://repo1.xueliang.org/repository/maven-public/' }
   maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
   mavenCentral()
   jcenter()
@@ -45,8 +45,9 @@ dependencies {
     def mysqlConnectorVersion = "5.1.42"  // 5.1.13及以下版本，无法使用utf8mb4
     def springVersion = '4.3.9.RELEASE'
 
-    compileOnly "com.aliyun:aliyun-java-sdk-core:4.0.8"
+    compileOnly "com.aliyun:aliyun-java-sdk-core:4.1.2"
     compileOnly "com.aliyun:aliyun-java-sdk-dysmsapi:1.1.0"
+    compileOnly "com.aliyun:aliyun-java-sdk-afs:1.0.0"
 
     compileOnly "javax.mail:mail:1.5.0-b01"
 

@@ -3,7 +3,6 @@ package org.xueliang.commons.support.sms.qcloud;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.xueliang.commons.support.sms.alidayu.AliDayuSmsSender;
 
 import java.util.LinkedHashMap;
 

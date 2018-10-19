@@ -30,22 +30,7 @@ public class TradeNoGenerator extends AbstractIdentifierGenerator {
      */
     private boolean withDateTimePrefix;
 
-    private DSLContext dsl;
-
-    private String tableName;
-
-    private AutoIncrementFixedLengthIdentifierGenerator autoIncrementFixedLengthIdentifierGenerator = new AutoIncrementFixedLengthIdentifierGenerator();
-
-    public TradeNoGenerator() {
-        autoIncrementFixedLengthIdentifierGenerator.setDsl(dsl);
-        autoIncrementFixedLengthIdentifierGenerator.setTableName(tableName);
-
-        int tailLength = length;
-        if (withDateTimePrefix) {
-            tailLength = tailLength - dateTimeFormatPattern.length();
-        }
-        autoIncrementFixedLengthIdentifierGenerator.setLength(tailLength);
-    }
+    private AutoIncrementFixedLengthIdentifierGenerator autoIncrementFixedLengthIdentifierGenerator;
 
     @Override
     public String nextId(String flag) {
@@ -81,19 +66,11 @@ public class TradeNoGenerator extends AbstractIdentifierGenerator {
         this.withDateTimePrefix = withDateTimePrefix;
     }
 
-    public DSLContext getDsl() {
-        return dsl;
+    public AutoIncrementFixedLengthIdentifierGenerator getAutoIncrementFixedLengthIdentifierGenerator() {
+        return autoIncrementFixedLengthIdentifierGenerator;
     }
 
-    public void setDsl(DSLContext dsl) {
-        this.dsl = dsl;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setAutoIncrementFixedLengthIdentifierGenerator(AutoIncrementFixedLengthIdentifierGenerator autoIncrementFixedLengthIdentifierGenerator) {
+        this.autoIncrementFixedLengthIdentifierGenerator = autoIncrementFixedLengthIdentifierGenerator;
     }
 }

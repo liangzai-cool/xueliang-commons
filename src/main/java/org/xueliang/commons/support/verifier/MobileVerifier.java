@@ -8,11 +8,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.xueliang.commons.Constants;
+import org.xueliang.commons.CommonConstants;
 import org.xueliang.commons.enums.ActionEnum;
 import org.xueliang.commons.exception.*;
+import org.xueliang.commons.support.sms.SmsSender;
 import org.xueliang.commons.support.verifier.model.SMSCaptcha;
-import org.xueliang.commons.support.sms.SmsSener;
 import org.xueliang.commons.util.ConfigProvider;
 
 import java.time.LocalDateTime;
@@ -54,13 +54,13 @@ public class MobileVerifier implements DataVerifier {
                 }
     });
 
-    private SmsSener smsSender;
+    private SmsSender smsSender;
 
     private ConfigProvider configProvider;
 
     private int count;
 
-    public void setSmsSender(SmsSener smsSender) {
+    public void setSmsSender(SmsSender smsSender) {
         this.smsSender = smsSender;
     }
 
@@ -87,7 +87,7 @@ public class MobileVerifier implements DataVerifier {
         // 客户端IP
         String ip = relateData[1];
         checkCount(ip);
-        String signName = configProvider.getConfig(Constants.CONFIG_KEY_NAME_SMS_SIGN_NAME);
+        String signName = configProvider.getConfig(CommonConstants.CONFIG_KEY_NAME_SMS_SIGN_NAME);
         LOGGER.info("init bind mobile[number={}][ip={}]", mobile, ip);
         String random = RandomStringUtils.randomNumeric(this.count);
         try {

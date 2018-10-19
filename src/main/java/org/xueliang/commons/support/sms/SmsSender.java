@@ -9,7 +9,7 @@ import java.util.List;
  * @author XueLiang
  * @date 2018/09/02 22:28:00
  */
-public interface SmsSener {
+public interface SmsSender {
 
     boolean batchSend(List<String> mobileList, String signName, String templateId, LinkedHashMap<String, String> parameterMap) throws Exception;
 

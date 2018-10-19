@@ -1,9 +1,13 @@
-package org.xueliang.commons.support.sms.alidayu;
+package org.xueliang.commons.support.sms.aliyun;
 
-import org.json.JSONObject;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.profile.DefaultProfile;
+import com.aliyuncs.profile.IClientProfile;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.util.Assert;
+import org.xueliang.commons.CommonConstants;
 
 import java.util.LinkedHashMap;
 
@@ -11,15 +15,17 @@ import java.util.LinkedHashMap;
  * @author XueLiang
  * @date 2018/9/2 23:21
  */
-public class AliDayuSmsSenderTest {
+public class AliyunSmsSenderTest {
 
-    private static AliDayuSmsSender sender;
+    private static AliyunSmsSender sender;
 
     @BeforeClass
     public static void beforeClass() throws Exception {
         String accessKeyId = "";
         String accessKeySecret = "";
-        sender = new AliDayuSmsSender(accessKeyId, accessKeySecret);
+        IClientProfile profile = DefaultProfile.getProfile(CommonConstants.ALIYUN_CLIENT_PROFILE_REGION_ID, accessKeyId, accessKeySecret);
+        IAcsClient acsClient = new DefaultAcsClient(profile);
+        sender = new AliyunSmsSender(acsClient);
     }
 
     @Test

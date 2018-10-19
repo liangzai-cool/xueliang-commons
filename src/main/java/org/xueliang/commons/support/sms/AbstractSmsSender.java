@@ -8,7 +8,7 @@ import java.util.List;
  * @author XueLiang
  * @date 2018/9/2 22:31
  */
-public abstract class AbstractSmsSender implements SmsSener {
+public abstract class AbstractSmsSender implements SmsSender {
 
     @Override
     public abstract boolean batchSend(List<String> mobileList, String signName, String templateId, LinkedHashMap<String, String> parameterMap) throws Exception;

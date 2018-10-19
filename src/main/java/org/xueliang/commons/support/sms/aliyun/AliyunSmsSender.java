@@ -1,4 +1,4 @@
-package org.xueliang.commons.support.sms.alidayu;
+package org.xueliang.commons.support.sms.aliyun;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
@@ -16,37 +16,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * 阿里大鱼发送短信
+ * 阿里云发送短信
  * @author XueLiang
  * @date 2018/9/2 22:43
  */
-public class AliDayuSmsSender extends AbstractSmsSender {
+public class AliyunSmsSender extends AbstractSmsSender {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AliDayuSmsSender.class);
-
-    /**
-     * 你的accessKeyId,参考本文档步骤2
-     */
-    private final String ACCESS_KEY_ID;
-
-    /**
-     * 你的accessKeySecret，参考本文档步骤2
-     */
-    private final String ACCESS_KEY_SECRET;
-
-//    /**
-//     * 短信签名
-//     */
-//    private final String SIGN_NAME;
-//
-//    /**
-//     * 模版代码
-//     */
-//    private final String TEMPLATE_CODE;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AliyunSmsSender.class);
 
     private final String REGION_ID = "cn-hangzhou";
-
-    private final String END_POINT_NAME = "cn-hangzhou";
 
     /**
      * 短信API产品名称（短信产品名固定，无需修改）
@@ -58,18 +36,11 @@ public class AliDayuSmsSender extends AbstractSmsSender {
      */
     private final String DOMAIN = "dysmsapi.aliyuncs.com";
 
-    //初始化ascClient,暂时不支持多region（请勿修改）
-    private final IClientProfile profile;
     private final IAcsClient acsClient;
 
-    public AliDayuSmsSender(String accessKeyId, String accessKeySecret/*, String signName, String templateCode*/) throws Exception {
-        this.ACCESS_KEY_ID = accessKeyId;
-        this.ACCESS_KEY_SECRET = accessKeySecret;
-//        this.SIGN_NAME = signName;
-//        this.TEMPLATE_CODE = templateCode;
-        profile = DefaultProfile.getProfile(this.REGION_ID, this.ACCESS_KEY_ID, this.ACCESS_KEY_SECRET);
-        DefaultProfile.addEndpoint(this.END_POINT_NAME, this.REGION_ID, this.PRODUCT, this.DOMAIN, true);
-        acsClient = new DefaultAcsClient(profile);
+    public AliyunSmsSender(IAcsClient acsClient) throws Exception {
+        DefaultProfile.addEndpoint(this.REGION_ID, this.PRODUCT, this.DOMAIN);
+        this.acsClient = acsClient;
     }
 
     /**
