@@ -1,21 +1,29 @@
 package org.xueliang.commons.support.generator;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 import org.xueliang.commons.DataStatusEnum;
 
-public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerator {
+/**
+ * 如果不是用spring，去掉下面的接口实现和afterPropertiesSet方法即可
+ */
+public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerator implements InitializingBean {
+
+    private static final Logger LOGGER = LogManager.getLogger(AutoIncrementIdentifierGenerator.class);
 
     private DSLContext dsl;
     
     private String tableName;
 
     /**
-     * 自增序列是否区分app_id
-     * 注意：会引起主键冲突，数据库需要使用id和app_id做联合主键
+     * 默认的appId
      */
-    private boolean diffAppId;
+    private String defaultAppId;
 
     @Override
     public String nextId() {
@@ -31,8 +39,8 @@ public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerato
     }
 
     /**
-     * 区分appId
-     * 注意：会引起主键冲突，数据库需要使用id和app_id做联合主键
+     * 注意：若 appId 与 ${code defaultAppId} 不同会引起主键冲突
+     * 数据库需要使用id和app_id做联合主键
      * @param table
      * @param appId
      * @return
@@ -64,7 +72,20 @@ public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerato
     }
 
     private String finalAppId(String appId) {
-        return diffAppId ? appId : StringUtils.EMPTY;
+        if (StringUtils.isEmpty(appId)) {
+            checkDefaultAppId();
+            return defaultAppId;
+        }
+        return appId;
+    }
+
+    private void checkDefaultAppId() {
+        LOGGER.info("default app id is [{}]", defaultAppId);
+        Assert.hasLength(defaultAppId, "please assign defaultAppId value");
+    }
+
+    public void afterPropertiesSet() {
+        checkDefaultAppId();
     }
 
     public DSLContext getDsl() {
@@ -81,11 +102,11 @@ public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerato
         this.tableName = tableName;
     }
 
-    public boolean isDiffAppId() {
-        return diffAppId;
+    public String getDefaultAppId() {
+        return defaultAppId;
     }
 
-    public void setDiffAppId(boolean diffAppId) {
-        this.diffAppId = diffAppId;
+    public void setDefaultAppId(String defaultAppId) {
+        this.defaultAppId = defaultAppId;
     }
 }
