@@ -32,10 +32,7 @@ public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerato
 
     @Override
     public String nextId(String table) {
-        String id = "auto.increment" + (StringUtils.isEmpty(table) ? "" : "." + table);
-        long[] value = new long[] {1};
-        generator(id, "", value);
-        return String.valueOf(value[0]);
+        return nextId(table, "");
     }
 
     /**
