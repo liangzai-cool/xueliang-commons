@@ -32,7 +32,7 @@ public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerato
 
     @Override
     public String nextId(String table) {
-        return nextId(table, "");
+        return nextId(table, defaultAppId);
     }
 
     /**
