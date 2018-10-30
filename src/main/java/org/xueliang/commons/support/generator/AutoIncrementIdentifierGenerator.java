@@ -32,7 +32,7 @@ public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerato
 
     @Override
     public String nextId(String table) {
-        return nextId(table, "");
+        return nextId(table, defaultAppId);
     }
 
     /**
@@ -52,6 +52,7 @@ public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerato
 
     protected void generator(String id, String appId, long[] value) {
         dsl.transaction(configuration -> {
+            long nextId = value[0] + 1;
             Record record = dsl.select().from(tableName)
                     .where("id = ?", id)
                     .and("status = ?", DataStatusEnum.NORMAL.name())
@@ -59,11 +60,11 @@ public class AutoIncrementIdentifierGenerator extends AbstractIdentifierGenerato
             if (record == null) {
                 dsl.query("delete from `" + tableName + "` where id = ? and app_id = ?", id, appId);
                 dsl.query("insert into `" + tableName + "`(id, value, app_id, status, created_time) values(?, ?, ?, ?, now())",
-                        id, value[0], appId, DataStatusEnum.NORMAL.name()).execute();
+                        id, nextId, appId, DataStatusEnum.NORMAL.name()).execute();
                 return;
             }
             value[0] = record.get("value", Long.class);
-            long nextId = value[0] + 1;
+            nextId = value[0] + 1;
             dsl.query("update `" + tableName + "` set value = ?, updated_time = now() where id = ? and app_id = ?", nextId, id, appId).execute();
         });
     }
