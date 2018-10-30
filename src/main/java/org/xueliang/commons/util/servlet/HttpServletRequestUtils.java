@@ -14,6 +14,7 @@ public class HttpServletRequestUtils {
     static {
         LOCALHOST_IP.add("127.0.0.1");  // ipv4
         LOCALHOST_IP.add("::1");        // ipv6
+        LOCALHOST_IP.add("0:0:0:0:0:0:0:1");        // ipv6
     }
 
     private HttpServletRequestUtils() {
@@ -25,7 +26,7 @@ public class HttpServletRequestUtils {
         if (!LOCALHOST_IP.contains(ip)) {
             return ip;
         }
-        ip = request.getHeader("X_REAL_IP");
+        ip = request.getHeader("X-REAL-IP");
         if (StringUtils.isNotEmpty(ip)) {
             return ip;
         }
