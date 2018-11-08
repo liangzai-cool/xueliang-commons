@@ -7,6 +7,10 @@ package org.xueliang.commons.exception;
 public class AccessDeniedException extends BaseException {
 
     public AccessDeniedException() {
-        super("无权操作");
+        this("无权操作");
+    }
+
+    public AccessDeniedException(String message) {
+        super(message);
     }
 }
