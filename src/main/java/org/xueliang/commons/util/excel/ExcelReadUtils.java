@@ -107,7 +107,7 @@ public class ExcelReadUtils {
 	 */
 	public JSONArray sheetToJSONArray(Sheet sheet) {
 		JSONArray jsonSheet = new JSONArray();
-		for (int i = 0, len = sheet.getLastRowNum(); i < len; i++) {
+		for (int i = 0, len = sheet.getLastRowNum(); i <= len; i++) {
 			Row row = sheet.getRow(i);
 			if (row == null) {	//跳过空行
 				continue;
