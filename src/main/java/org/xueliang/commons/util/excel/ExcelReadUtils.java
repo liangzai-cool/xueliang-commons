@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.slf4j.Logger;
@@ -160,24 +161,38 @@ public class ExcelReadUtils {
 	 * @return
 	 */
 	public Object getValue(Cell cell) {
+//	    // 修复数值型内容被转成double，与原始内容产生差异的问题
+//        // 这里直接获取原始内容
+//	    if (cell instanceof XSSFCell) {
+//	        return ((XSSFCell) cell).getCTCell().getV();
+//        }
 		Object cellValue = "";
 		int type = typeOfCell(cell);
 		switch (type) {
-			case Cell.CELL_TYPE_STRING:								//数
+			case Cell.CELL_TYPE_STRING:
 				cellValue = cell.getStringCellValue();
 				break;
-			case Cell.CELL_TYPE_NUMERIC:							//布尔类型
-				cellValue = df.format(cell.getNumericCellValue());
+            // 数
+			case Cell.CELL_TYPE_NUMERIC:
+			    if (cell instanceof XSSFCell) {
+			        cellValue = ((XSSFCell) cell).getCTCell().getV();
+                } else {
+                    cellValue = cell.getNumericCellValue();
+                }
 				break;
-			case Cell.CELL_TYPE_BOOLEAN:							//错误类型
+            // 布尔类型
+			case Cell.CELL_TYPE_BOOLEAN:
 				cellValue = cell.getBooleanCellValue();
 				break;
-			case Cell.CELL_TYPE_ERROR:								//公式
+            // 错误类型
+			case Cell.CELL_TYPE_ERROR:
 				cellValue = cell.getErrorCellValue();
 				break;
-			case Cell.CELL_TYPE_FORMULA:							//空白
+            // 公式
+			case Cell.CELL_TYPE_FORMULA:
 				cellValue = cell.getNumericCellValue();
 				break;
+            // 空白
 			case Cell.CELL_TYPE_BLANK:
 				break;
 			default:
