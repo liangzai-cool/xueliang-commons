@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.net.ssl.SSLContext;
 
@@ -48,7 +49,7 @@ public class HttpUtils {
             .setSSLHostnameVerifier(new NoopHostnameVerifier());
             allowAllHostname = true;
         } catch (KeyManagementException e) {
-            LOGGER.warn("");
+
         } catch (NoSuchAlgorithmException e) {
 
         } catch (KeyStoreException e) {
@@ -83,13 +84,27 @@ public class HttpUtils {
         }
         LOGGER.info("begin to request {}", url);
         long start = System.currentTimeMillis();
+        httpPost.addHeader("Cache-Control", "no-cache, no-store");
+        httpPost.addHeader("Expires", "0");
+        if (LOGGER.isDebugEnabled()) {
+            Stream.of(httpPost.getAllHeaders()).forEach(header -> {
+                LOGGER.debug("request header name: {}, value: {}", header.getName(), header.getValue());
+            });
+        }
         HttpResponse httpResponse = httpClient.execute(httpPost);
+        if (LOGGER.isDebugEnabled()) {
+            Stream.of(httpResponse.getAllHeaders()).forEach(header -> {
+                LOGGER.debug("response header name: {}, value: {}", header.getName(), header.getValue());
+            });
+        }
         long end = System.currentTimeMillis();
         LOGGER.info("end to request {}", url);
         LOGGER.info("cost {} milliseconds", (end - start));
         if (isText) {
             String responseString = EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
-            LOGGER.info("reponse body is [{}]", responseString);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("response body is [{}]", responseString);
+            }
             return responseString;
         }
         return httpResponse.getEntity().getContent();
@@ -131,7 +146,9 @@ public class HttpUtils {
         LOGGER.info("cost {} milliseconds", (end - start));
         if (isText) {
             String responseString = EntityUtils.toString(httpResponse.getEntity(), StandardCharsets.UTF_8);
-            LOGGER.info("reponse body is [{}]", responseString);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("response body is [{}]", responseString);
+            }
             return responseString;
         }
         return httpResponse.getEntity().getContent();
