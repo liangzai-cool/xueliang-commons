@@ -1,7 +1,5 @@
 package org.xueliang.commons.support.pay.alipay;
 
-import java.math.BigDecimal;
-
 /**
  * 电脑网站支付结果异步通知
  * @author XueLiang
